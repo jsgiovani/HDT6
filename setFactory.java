@@ -1,6 +1,8 @@
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.TreeSet;
+import java.util.Set;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,11 +21,14 @@ public class setFactory {
         switch(tipoSet){
             case "hashSet":
                
-                return (Set) new HashSet<String>(); 
+                return new HashSet<>(); 
                 
                 
-            case "lis":
-                return  (Set) new TreeSet<String>();
+            case "treeSet":
+                return   new LinkedHashSet<>();
+                
+            case "linkedHashSet":
+                return   new LinkedHashSet<>();    
                 
             default:
                 return null; 

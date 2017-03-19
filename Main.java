@@ -1,7 +1,13 @@
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
+
+import java.util.Set;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
+import java.util.Set;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -25,145 +31,103 @@ public class Main {
         
         //Creamos objeto para ler datos del teclado
         Scanner teclado = new Scanner(System.in);
+         String tipoSet=""; //varaible para guardar el string del tipo de set, a usar 
         
          
        
         
         while(true){// *************menu principal 
+           
             System.out.println("Como desea implementar la interfaz Set");
-            System.out.println("1)Hashsetn 4)Salir");
+            System.out.println("1)HashSet,2)TreeSet,3)LinkedSet4)Salir");
             System.out.print("Escriba el número de opcción:");
             opcionSet= teclado.nextInt();
+           
             
-            ////////////////////////Factory!!! con un case
+            ////////////////////////Factory!////////////////////////////////////////////////
+            if(opcionSet==1){//HashSet
+                tipoSet="hashSet";
+                 System.out.println("-----------------------HashSet-----------------------------");
+            }
+            else if(opcionSet==2){
+                 tipoSet="treeSet";  
+                  System.out.println("-----------------------TreeSet-----------------------------");
+            }
+            else if(opcionSet==3){
+                tipoSet="linkedHashSet";
+                System.out.println("------------------------LinkedHashSet----------------------------");
+   
+            }
+            setFactory nFactory = new setFactory();
+            Set<Desarrollador> myTabla = nFactory.getSet(tipoSet);
             
-            
-            
-            
-            
-            if(opcionSet==1){ // Si desea implementar HashSet
-                HashSet<String> hashWeb = new HashSet<String>();
-                HashSet<String> hashJava = new HashSet<String>();
-                HashSet<String> hashMovil = new HashSet<String>();
+            //************************FIN DEL FACTORY************************************
+            //Mostrar Java,web y celulares
                 
-                
+          
+            if(opcionSet<=3 ){ 
+               
                 //Ciclo para pedir nombres 
                 String opccionOUsuario="y";
                 String nombre;
-                System.out.println("\n\n-----------------------HashSet----------------------------");
+                
                 System.out.println("Ingrese el nombre del usuario: y luego el numero de ambiente donde ha trabajado");
                 System.out.println("1)Desarrolador java\n2)Desarrodor Web\n3)Desarrolador Celulares");
-                
-                
-                
+        
                 teclado.nextLine(); //para corregir el salto de linea de nextline()
                 String opcionNombre="y";
                 while(opcionNombre.equals("y") || opcionNombre.equals("Y") ){
-                    System.out.print("\n***Nombre de Usuario:");
-                   
+                    System.out.print("\n***Nombre de Usuario:");  
                     nombre =teclado.nextLine();
+                   
                     
-                  
-                    //CIclo para pedir el ambiente donde trabaja 
+
+                    //CIclo para pedir el tipo de desarrollador
                     String opcionAmbiente="y" ;
                     int n=0;
-                    while (opcionAmbiente.equals("y") || opcionAmbiente.equals("Y")  && n<3){
-                    
-                   
-                    
+                    boolean java=false,web=false,movil=false;                   //variables para saber de que tipo son
+                    while (opcionAmbiente.equals("y") && n<3){
                          n++; //si el contador llega a 3, ya no puede agregar mas ambientes
+                       // Cambiamos el valor booleano dependiendo del tipo,webjavadmovil.
                         System.out.print("---Numero de ambiente:");
-                        int nAmbiente = teclado.nextInt();
-                        if(nAmbiente==1){
-                            hashJava.add(nombre);
-                            
+                        int nAmbiente = teclado.nextInt();          //pedimos el valor 
+                        if(nAmbiente==1){// si es java
+                            java=true; 
                         }
                         else if(nAmbiente==2){
-                            hashWeb.add(nombre);
+                            web=true;
                         }
                         else if(nAmbiente==3){
-                            hashMovil.add(nombre);
+                            movil=true; 
                         }
-                        else{
-                            System.out.println("Ingreso mal el número");
-                        }
+                        //-----------------------
+                         
+                          
+                            System.out.print("---Desea agregar otro ambiente donde ha trabajado (y/n)");
+                            teclado.nextLine();
+                            opcionAmbiente=teclado.nextLine();
                         
-                        
-                        
-                        
-                        System.out.print("---Desea agregar otro ambiente donde ha trabajado (y/n)");
-                        teclado.nextLine();
-                        opcionAmbiente=teclado.nextLine();
-                    }//Fin del while opccionAmbiente  1
+                      
+                    }//Fin del while opccionAmbiente
+                    myTabla.add(new Desarrollador(nombre,java,web,movil));//Gurdamos los valores del objeto a la tabla
                     
                     System.out.print("\n********Desea agregar otro usuario (y/n)");
                    // teclado.nextLine();
-                    opcionNombre=teclado.nextLine();
-                   
-                    
+                    opcionNombre=teclado.nextLine();       
                 } 
                 
-              //************************Dessarroladores Web y Celular ****************** 
-              HashSet<String> hashWebCelular = new HashSet<String>();
-             System.out.print("\n\n -------Web y  Celular----- \n");
-     
-            for(String dWeb: hashWeb){
-                hashWebCelular.add(dWeb); //Agregamos todos los web
-            } 
-            // como el HashSet no permite agregar nombres iguales, no hay problema 
-            for (String dMovil:hashMovil){
-                hashWebCelular.add(dMovil);
-            } 
-             //Imprimios los hashWeb y celular-----
-            for(String datosWyC:hashWebCelular){
-                System.out.println(datosWyC);
-              }
-            //Fin de web y celular/**************************************************
+                
+           ///Mostramos datos que pide la hoja 
+            MetodoMostrar mostrar = new MetodoMostrar();
+            
+            mostrar.mostar(myTabla);
+                 
+                
               
-            //**************Desarrroladores Java,web y celular
-            HashSet<String> hashD3 = new HashSet<String>();
-            System.out.print("\n -----------------Java,web y celular------------- \n");
-            // como el HashSet no permite agregar nombres iguales, no hay problema 
-            for (String dJava:hashJava){
-              hashD3.add(dJava);
-            } 
-            for(String dWeb: hashWeb){
-                hashD3.add(dWeb); //Agregamos todos los web
-            } 
-            for (String dMovil:hashMovil){
-             hashD3.add(dMovil);
-            } 
-            //Imprime los tres ambientes de desarroladores
-             for(String datosD3:hashD3){
-                System.out.println(datosD3);
-             }
-                
-               
-                
-                
-                
-                
-                
-                
-            
-            }//Fin del if opcción1
+            }//Fin del if opcción1--------------------------------------------------------------------------------------------------------------------------------------------------
             
             
-            else if(opcionSet==2){ //Si desea implementar treeset
-                System.out.println("-----------------------TreeSet-----------------------------");
-                
-                
-                
-                
-                
-            }
-            
-            else if(opcionSet==3){ //Si desea implementar Liked Hashset
-               System.out.println("------------------------LinkedHashSet----------------------------");
-               
-               
-               
-            }
+
             else if(opcionSet==4){
                 System.exit(0);
             }
@@ -178,5 +142,6 @@ public class Main {
         
         }
     }
+    
     
 }
